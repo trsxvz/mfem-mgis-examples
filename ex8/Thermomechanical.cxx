@@ -160,16 +160,13 @@ int main(int argc, char* argv[]) {
   print_mesh_information(mechanics.getImplementation<true>());
   print_memory_footprint("After_problem_creation:");
 
-  /*Test de récupération du déplacement pour l'envoyer à Robin*/
   auto mechanics_fed = mechanics.getFiniteElementDiscretizationPointer();
 #ifdef MFEM_USE_MPI
-  auto& mech_fes = mechanics_fed->getFiniteElementSpace<true>();
+  mfem::ParGridFunction u_mech(&mechanics_fed->getFiniteElementSpace<true>());
 #else
-  auto& mech_fes = mechanics_fed->getFiniteElementSpace<false>();
+  mfem::GridFunction u_mech(&mechanics_fed->getFiniteElementSpace<false>());
 #endif
-  double* u_data = mechanics.getUnknowns(mfem_mgis::ets).GetData();
-  mfem::GridFunction u_mech(&mech_fes, u_data);
-  /*Fin de test*/
+  u_mech = 0.0;
 
   const auto setup =
       setup_properties(ctx, p, heat_transfer, mechanics, power_history);
@@ -213,10 +210,10 @@ int main(int argc, char* argv[]) {
 
   auto updater_model = std::make_shared<FieldUpdaterModel>(
       ctx, mesh, setup.fields[0].Pow_s0_sw, setup.fields[0].Pow_s1_sw,
-      power_history);
+      power_history, &u_mech, &mechanics.getUnknowns(mfem_mgis::ets));
 
-  c->addModel(ctx, heat_transfer_model) | or_die;
   c->addModel(ctx, updater_model) | or_die;
+  c->addModel(ctx, heat_transfer_model) | or_die;
   c->addModel(ctx, setup.swelling_model) | or_die;
   c->addModel(ctx, mechanics_model) | or_die;
   ps.setCouplingScheme(ctx, c) | or_die;
