@@ -6,6 +6,8 @@
 
 @StrainMeasure Hencky;
 
+@Theta 1.;
+
 @ElasticMaterialProperties {"U3SI2_YoungModulus.mfront", "U3SI2_PoissonRatio.mfront"};
 
 @Parameter A = 500E-37; // Creep coefficient: 500e-25 × 1e6 (conversion from MPa to Pa)
