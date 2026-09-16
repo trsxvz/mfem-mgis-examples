@@ -26,7 +26,7 @@ namespace mfem_mgis {
     R.SetSize(nnodes);
     R = 0.0;
     const auto *ir = this->IntRule;
-    if (!ir) ir = &mfem::IntRules.Get(e.GetGeomType(), e.GetOrder());
+    if (!ir) ir = &mfem::IntRules.Get(e.GetGeomType(), 2 * e.GetOrder());
 
     mfem::DenseMatrix grad_u;
     mfem::FaceElementTransformations *face_tr =
@@ -66,7 +66,7 @@ namespace mfem_mgis {
     K.SetSize(nnodes, nnodes);
     K = 0.0;
     const auto *ir = this->IntRule;
-    if (!ir) ir = &mfem::IntRules.Get(e.GetGeomType(), e.GetOrder());
+    if (!ir) ir = &mfem::IntRules.Get(e.GetGeomType(), 2 * e.GetOrder());
 
     mfem::DenseMatrix grad_u;
     mfem::FaceElementTransformations *face_tr =
