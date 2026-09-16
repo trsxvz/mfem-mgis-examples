@@ -84,6 +84,7 @@ void common_parameters(mfem::OptionsParser& args, TestParameters& p) {
   args.AddOption(&p.h_conv, "-hc", "--h-conv",
                  "Thermal convection coefficient, default = 5e4");
 
+  mfem_mgis::declareDefaultOptions(args);
   args.Parse();
 
   if (!args.Good()) {
@@ -92,7 +93,6 @@ void common_parameters(mfem::OptionsParser& args, TestParameters& p) {
     exit(0);
   }
   if (mfem_mgis::getMPIrank() == 0) args.PrintOptions(std::cout);
-  mfem_mgis::declareDefaultOptions(args);
 }
 
 int main(int argc, char* argv[]) {
