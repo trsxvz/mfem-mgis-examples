@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iostream>
@@ -109,8 +110,8 @@ int main(int argc, char* argv[]) {
   OptionsParser args(argc, argv);
   common_parameters(args, p);
 
-  auto power_history = [p](const double t) {
-    const double t_ramp = 1e5;
+  const double t_ramp = 1e5;
+  auto power_history = [p, t_ramp](const double t) {
     return (t <= t_ramp) ? p.source * (t / t_ramp) : p.source;
   };
 
@@ -219,6 +220,14 @@ int main(int argc, char* argv[]) {
   ps.setCouplingScheme(ctx, c) | or_die;
 
   // declaring the simulation
+  const auto ramp_steps = t_ramp * p.nbsteps / p.duree;
+  if ((t_ramp < p.duree) &&
+      (std::abs(ramp_steps - std::round(ramp_steps)) > 1e-9) &&
+      (mfem_mgis::getMPIrank() == 0)) {
+    std::cout << "[warning]: the end of the power ramp (t = " << t_ramp
+              << " s) is not a time step boundary, the swelling will be "
+                 "under-integrated on the step containing it\n";
+  }
   const auto times =
       construct<Simulation::TimesDescription>(ctx, 0, p.duree, p.nbsteps) |
       or_die;
