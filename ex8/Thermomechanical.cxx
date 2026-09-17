@@ -83,7 +83,7 @@ void common_parameters(mfem::OptionsParser& args, TestParameters& p) {
   args.AddOption(&p.nbsteps, "-ns", "--nbsteps",
                  "Number of time steps, default = 1");
   args.AddOption(&p.t_ramp, "-tr", "--t-ramp",
-                 "Duration of the power ramp, default = 1e5");
+                 "Duration of the power ramp (0 disables it), default = 1e5");
   args.AddOption(&p.h_conv, "-hc", "--h-conv",
                  "Thermal convection coefficient, default = 5e4");
 
@@ -112,6 +112,11 @@ int main(int argc, char* argv[]) {
   OptionsParser args(argc, argv);
   common_parameters(args, p);
 
+  if (p.t_ramp < 0) {
+    ctx.log() << "the duration of the power ramp must not be negative\n";
+    finalize();
+    return EXIT_FAILURE;
+  }
   const auto ramp_steps = p.t_ramp * p.nbsteps / p.duree;
   if ((p.t_ramp < p.duree) &&
       (std::abs(ramp_steps - std::round(ramp_steps)) > 1e-9)) {
@@ -122,7 +127,7 @@ int main(int argc, char* argv[]) {
   }
 
   auto power_history = [p](const double t) {
-    return (t <= p.t_ramp) ? p.source * (t / p.t_ramp) : p.source;
+    return (t < p.t_ramp) ? p.source * (t / p.t_ramp) : p.source;
   };
 
   auto mesh =

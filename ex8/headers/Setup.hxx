@@ -13,8 +13,6 @@
 struct TestParameters {
   const char* mesh_file =
       "../mesh/assemblage_hexa.msh";  // path to the mesh file
-  const char* behaviour =
-      "ConductionThermique";  // default thermal behaviour name
   const char* libraryALFENI =
       "src/libALFENI-generic.so";  // MFront ALFENI library
                                    // (behaviours/models)
@@ -32,7 +30,7 @@ struct TestParameters {
   bool parallel = true;  // enable parallel execution (MPI)
   bool debug = true;     // enable debug output/checks
   int refinement = 0;    // number of uniform mesh refinements
-  int post_processing = 1;  // default value : disabled
+  int post_processing = 1;  // enable the export of results for ParaView
   int verbosity_level = 0;  // default value : lower level
 
   // Physical properties
@@ -64,13 +62,6 @@ struct GaussFieldStorage {
   std::shared_ptr<std::vector<double>>
       Pow_s1_mmc;  // power density (mechanical material) at the end of the time
                    // step
-
-  std::shared_ptr<std::vector<double>>
-      Pow_s0_th;  // power density (thermal material) at the beginning of the
-                  // time step
-  std::shared_ptr<std::vector<double>>
-      Pow_s1_th;  // power density (thermal material) at the end of the time
-                  // step
 };
 
 struct SetupPropertiesResult {

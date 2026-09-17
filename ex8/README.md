@@ -82,7 +82,7 @@ Here is a summary table of the available options:
 | `-v` | `--verbosity-level` | Verbosity level of the console logs (`0` = minimal, higher levels = increased details). |
 | `-dur` | `--duree` | Total simulation duration (default: `1e5`). |
 | `-ns` | `--nbsteps` | Number of time steps (default: `1`). |
-| `-tr` | `--t-ramp` | Duration of the power ramp (default: `1e5`). Its end must be a time step boundary, otherwise the run stops. |
+| `-tr` | `--t-ramp` | Duration of the power ramp (default: `1e5`). Its end must be a time step boundary, otherwise the run stops. `0` disables the ramp. |
 | `-hc` | `--h-conv` | Thermal convection coefficient (default: `5e4`). |
 
 ### Parallel Execution Example
