@@ -81,7 +81,8 @@ Here is a summary table of the available options:
 | `-p` | `--post-processing` | Enables (`1`) or disables (`0`) the export of results for ParaView. |
 | `-v` | `--verbosity-level` | Verbosity level of the console logs (`0` = minimal, higher levels = increased details). |
 | `-dur` | `--duree` | Total simulation duration (default: `1e5`). |
-| `-ns` | `--nbsteps` | Number of time steps (default: `1`). The end of the power ramp (`1e5` s) must be a time step boundary, a warning is printed otherwise. |
+| `-ns` | `--nbsteps` | Number of time steps (default: `1`). |
+| `-tr` | `--t-ramp` | Duration of the power ramp (default: `1e5`). Its end must be a time step boundary, otherwise the run stops. |
 | `-hc` | `--h-conv` | Thermal convection coefficient (default: `5e4`). |
 
 ### Parallel Execution Example

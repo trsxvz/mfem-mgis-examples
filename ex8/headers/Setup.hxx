@@ -42,6 +42,7 @@ struct TestParameters {
   double water_pressure = 0.0;  // imposed water pressure
   double duree = 1e5;           // total simulation duration
   int nbsteps = 1;              // number of time steps
+  double t_ramp = 1e5;          // duration of the power ramp
   double h_conv = 5e4;          // thermal convection coefficient
 };
 
