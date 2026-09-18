@@ -86,6 +86,8 @@ void common_parameters(mfem::OptionsParser& args, TestParameters& p) {
                  "Duration of the power ramp (0 disables it), default = 1e5");
   args.AddOption(&p.h_conv, "-hc", "--h-conv",
                  "Thermal convection coefficient, default = 5e4");
+  args.AddOption(&p.water_pressure, "-wp", "--water-pressure",
+                 "Coolant pressure, default = 1e6");
 
   mfem_mgis::declareDefaultOptions(args);
   args.Parse();
