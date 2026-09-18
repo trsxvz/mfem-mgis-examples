@@ -223,8 +223,8 @@ int main(int argc, char* argv[]) {
   auto c = std::make_shared<IterativeCouplingScheme>(ctx, mesh) | or_die;
   auto criterion = std::make_shared<FirstIterationConvergenceCriterion>();
 
-  c->setMaximumNumberOfIterations(ctx, 10);
-  c->addConvergenceCriterion(ctx, criterion);
+  c->setMaximumNumberOfIterations(ctx, 10) | or_die;
+  c->addConvergenceCriterion(ctx, criterion) | or_die;
 
   auto updater_model = std::make_shared<FieldUpdaterModel>(
       ctx, mesh, setup.fields[0].Pow_s0_sw, setup.fields[0].Pow_s1_sw,
